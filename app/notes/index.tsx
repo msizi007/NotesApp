@@ -31,6 +31,9 @@ export default function index() {
   const [text, setText] = useState("");
   const [updating, setUpdating] = useState(false);
   const [editNoteId, setEditNoteId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredNotes, setFilteredNotes] = useState<Note[]>(notes);
+  const [sorted, setSorted] = useState<boolean | null>(null);
 
   useEffect(() => {
     const loadNotes = async () => {
@@ -42,7 +45,7 @@ export default function index() {
 
   useEffect(() => {
     storeNotes(notes);
-  }, [notes]);
+  }, [notes, filteredNotes]);
 
   const addNote = () => {
     const note: Note = {
@@ -53,6 +56,9 @@ export default function index() {
       dateAdded: new Date(),
     };
     setNotes([...notes, note]);
+    setCategory("Work");
+    setTitle("");
+    setText("");
     setModalVisible(false);
   };
 
@@ -72,6 +78,28 @@ export default function index() {
     setModalVisible(true);
     setUpdating(true);
     setEditNoteId(id);
+  };
+
+  const searchNotes = () => {
+    setFilteredNotes(
+      notes.filter((note) =>
+        note.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  };
+
+  const sortNotes = () => {
+    const sortedNotes = [...notes].sort(
+      (a, b) =>
+        sorted
+          ? b.title.localeCompare(a.title) // A → Z
+          : a.title.localeCompare(b.title) // Z → A
+    );
+
+    console.log(sortedNotes);
+
+    setFilteredNotes(sortedNotes);
+    setSorted(!sorted); // flip the sorting direction
   };
 
   const updateNote = () => {
@@ -98,10 +126,25 @@ export default function index() {
     <View style={styles.container}>
       {notes.length > 0 ? (
         <>
+          <View style={styles.row}>
+            <TextInput
+              style={styles.searchInput}
+              value={searchTerm}
+              onChangeText={(v) => {
+                setSearchTerm(v);
+                searchNotes();
+              }}
+            />
+            <TouchableOpacity style={styles.filterButton} onPress={sortNotes}>
+              <Ionicons name="filter" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
           <Text style={[styles.title, styles.heading]}>Tasks</Text>
           <FlatList
             keyExtractor={(item) => item.id}
-            data={notes}
+            data={
+              searchTerm.length > 0 || sorted != null ? filteredNotes : notes
+            }
             renderItem={({ item }) => (
               <NoteCard
                 note={item}
@@ -296,5 +339,26 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderWidth: 1,
+  },
+  row: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 10,
+  },
+  searchInput: {
+    marginVertical: 10,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: "#aaa",
+    padding: 10,
+    width: "100%",
+  },
+  filterButton: {
+    padding: 5,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: "gray",
   },
 });
