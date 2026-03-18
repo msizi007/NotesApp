@@ -4,7 +4,7 @@ import { Tabs, useRouter } from "expo-router";
 export default function RootLayout() {
   const router = useRouter();
   return (
-    <Tabs>
+    <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
         name="index"
         options={{

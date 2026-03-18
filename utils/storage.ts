@@ -1,13 +1,8 @@
-import { Note } from "@/app/notes";
+import { Note } from "@/types/Note";
+import { User } from "@/types/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export interface User {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export async function getUser(): Promise<User | null> {
+export async function getLocalUser(): Promise<User | null> {
   try {
     const data = await AsyncStorage.getItem("user");
     if (!data) return null; // nothing saved
@@ -18,8 +13,12 @@ export async function getUser(): Promise<User | null> {
   }
 }
 
-export function setUser(user: User) {
+export function setLocalUser(user: User) {
   return AsyncStorage.setItem("user", JSON.stringify(user));
+}
+
+export function removeLocalUser() {
+  return AsyncStorage.removeItem("user");
 }
 
 export async function storeNotes(notes: Note[]) {

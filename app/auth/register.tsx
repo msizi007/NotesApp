@@ -1,14 +1,19 @@
-import { setUser, User } from "@/utils/storage";
+import { User } from "@/types/User";
+import { setLocalUser } from "@/utils/storage";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-export default function register() {
+
+export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,6 +21,7 @@ export default function register() {
   const router = useRouter();
 
   const registerUser = () => {
+    setError(""); // Reset error state
     if (!username || !email || !password) {
       setError("Please fill in all fields");
       return;
@@ -26,99 +32,156 @@ export default function register() {
       email,
       password,
     };
-    setUser(payload);
-    alert("User registered successfully");
+
+    setLocalUser(payload);
     router.push("/notes");
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.form}>
-        <Text style={styles.title}>Register</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          value={username}
-          onChangeText={(e) => setUsername(e)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={(e) => setEmail(e)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={(e) => setPassword(e)}
-          secureTextEntry={true}
-        />
-        <Text>
-          Already have an account?{" "}
-          <Link style={styles.link} href="/auth/login">
-            Login
-          </Link>
-        </Text>
-        {error && <Text style={styles.error}>{error}</Text>}
-        <TouchableOpacity style={styles.button} onPress={registerUser}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.headerSection}>
+          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.subtitle}>
+            Join us to start journaling your thoughts
+          </Text>
+        </View>
+
+        <View style={styles.form}>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Username</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Pick a unique username"
+              value={username}
+              onChangeText={setUsername}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="email@example.com"
+              value={email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onChangeText={setEmail}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Create a strong password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+            />
+          </View>
+
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+          <TouchableOpacity style={styles.button} onPress={registerUser}>
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Already have an account? </Text>
+            <Link style={styles.link} href="/auth/login">
+              Login
+            </Link>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "#fff",
   },
-  form: {
-    borderRadius: 10,
-    borderWidth: 2,
-    padding: 10,
-    width: "60%",
-    flex: 0.5,
-    display: "flex",
+  scrollContent: {
+    flexGrow: 1,
     justifyContent: "center",
-    paddingHorizontal: 20,
+    padding: 30,
+  },
+  headerSection: {
+    marginBottom: 40,
+    alignItems: "flex-start",
   },
   title: {
-    textAlign: "center",
-    fontWeight: 700,
-    fontSize: 20,
-    marginVertical: 20,
+    fontSize: 32,
+    fontWeight: "800",
+    color: "#1a1a1a",
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#666",
+    marginTop: 8,
+  },
+  form: {
+    width: "100%",
+  },
+  inputGroup: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#444",
+    marginBottom: 8,
+    marginLeft: 4,
   },
   input: {
-    marginBottom: 10,
-    borderRadius: 5,
-    borderWidth: 2,
-    borderColor: "#aaa",
-    padding: 10,
-    width: "100%",
-    alignSelf: "center",
+    backgroundColor: "#f4f4f4",
+    borderRadius: 12,
+    padding: 16,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: "#eee",
   },
   button: {
     backgroundColor: "#000",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
-    width: "100%",
-    alignSelf: "center",
+    padding: 18,
+    borderRadius: 12,
+    marginTop: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "700",
     textAlign: "center",
   },
-  link: {
-    textDecorationLine: "underline",
-    color: "blue",
-    textDecorationColor: "blue",
+  errorText: {
+    color: "#FF3B30",
+    marginBottom: 15,
+    textAlign: "center",
+    fontWeight: "500",
   },
-  error: {
-    color: "red",
+  footer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 25,
+  },
+  footerText: {
+    color: "#666",
+    fontSize: 15,
+  },
+  link: {
+    color: "#007AFF",
+    fontSize: 15,
+    fontWeight: "700",
   },
 });

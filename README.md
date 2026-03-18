@@ -1,48 +1,74 @@
-# Welcome to your Notes App
+# NotesApp & Audio Recorder
 
-## Get started
+![NotesApp](https://socialify.git.ci/msizi007/NotesApp/image?language=1&name=1&owner=1&stargazers=1&theme=Light)
 
-1. Install dependencies
+A robust React Native application built with **Expo** that combines traditional text-based journaling with an advanced **Audio Recorder**. This app allows users to capture their thoughts through text notes or high-quality voice recordings, all organized in a clean, modern interface.
 
-   ```bash
-   npm install
-   ```
+#### Key Features
 
-2. Start the app
+- **User Authentication**: Secure Login and Registration flow for personalized data management.
+- **Audio Recording**: High-fidelity voice notes with real-time playback and duration tracking.
+- **Note Management**: Full CRUD capabilities for text and audio-based notes.
+- **Profile Customization**: Personal settings to manage user details and initials-based avatars.
+- **Persistent Storage**: Local data persistence ensuring your notes are safe between sessions.
 
-   ```bash
-   npx expo start
-   ```
+#### Get Started
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+1. **Install dependencies**
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Start running the expo app with
 
-## Learn more
+```bash
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+#### Project Structure
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+NotesApp
+├── app/                  # Expo Router (File-based Navigation)
+│   ├── auth/             # Authentication Screens
+│   │   ├── _layout.tsx   # Auth group layout
+│   │   ├── login.tsx     # User Login
+│   │   └── register.tsx  # Account Registration
+│   ├── notes/            # Main Application Features
+│   │   ├── _layout.tsx   # Notes group layout
+│   │   ├── index.tsx     # Notes Dashboard (List View)
+│   │   └── settings.tsx  # User Profile & App Settings
+│   └── _layout.tsx       # Root layout and global providers
+├── components/           # Reusable UI Components
+│   └── NoteCard.tsx      # Individual Card for Text/Audio Notes
+├── hooks/                # Custom React Hooks for logic reuse
+├── types/                # TypeScript Definitions
+│   ├── Note.ts           # Interface for Note objects
+│   └── User.ts           # Interface for User profile data
+├── utils/                # Helper Functions
+│   └── storage.ts        # LocalStorage/AsyncStorage abstractions
+├── assets/               # Static Media (Icons, Splash, Audio)
+├── app.json              # Expo Configuration
+└── tsconfig.json         # TypeScript Compiler Settings
+```
 
-## Join the community
+#### Technologies Used
 
-Join our community of developers creating universal apps.
+- Framework: React Native with Expo
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Navigation: Expo Router
+
+- Language: TypeScript
+
+- Icons: Expo Vector Icons (Ionicons)
+
+- Audio: Expo-AV for recording and playback
+
+#### Screenshots
+
+<p align="center">
+  <img src="image-2.png" width="31%" alt="User Settings" />
+  <img src="image.png" width="31%" alt="Notes Dashboard" />
+  <img src="image-1.png" width="31%" alt="Login Error Handling" />
+</p>
