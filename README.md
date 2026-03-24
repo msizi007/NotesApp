@@ -72,3 +72,7 @@ NotesApp
   <img src="image.png" width="31%" alt="Notes Dashboard" />
   <img src="image-1.png" width="31%" alt="Login Error Handling" />
 </p>
+
+
+#### Author 
+M.S Mwelase
