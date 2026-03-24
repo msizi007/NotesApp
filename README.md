@@ -2,7 +2,7 @@
 
 ![NotesApp](https://socialify.git.ci/msizi007/NotesApp/image?language=1&name=1&owner=1&stargazers=1&theme=Light)
 
-A robust React Native application built with **Expo** that combines traditional text-based journaling with an advanced **Audio Recorder**. This app allows users to capture their thoughts through text notes or high-quality voice recordings, all organized in a clean, modern interface.
+A robust React Native application built with **Expo**. This app allows users to capture their thoughts through text notes.
 
 #### Key Features
 
@@ -73,6 +73,6 @@ NotesApp
   <img src="image-1.png" width="31%" alt="Login Error Handling" />
 </p>
 
+#### Author
 
-#### Author 
 M.S Mwelase
