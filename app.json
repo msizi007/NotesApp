@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tutorial2",
-    "slug": "tutorial2",
+    "name": "Notes App",
+    "slug": "Notes_App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/splash.png",
