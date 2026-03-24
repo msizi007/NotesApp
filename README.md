@@ -7,8 +7,7 @@ A robust React Native application built with **Expo**. This app allows users to 
 #### Key Features
 
 - **User Authentication**: Secure Login and Registration flow for personalized data management.
-- **Audio Recording**: High-fidelity voice notes with real-time playback and duration tracking.
-- **Note Management**: Full CRUD capabilities for text and audio-based notes.
+- **Note Management**: Full CRUD capabilities for text.
 - **Profile Customization**: Personal settings to manage user details and initials-based avatars.
 - **Persistent Storage**: Local data persistence ensuring your notes are safe between sessions.
 
@@ -62,8 +61,6 @@ NotesApp
 - Language: TypeScript
 
 - Icons: Expo Vector Icons (Ionicons)
-
-- Audio: Expo-AV for recording and playback
 
 #### Screenshots
 
