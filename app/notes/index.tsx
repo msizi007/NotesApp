@@ -30,6 +30,8 @@ export default function Index() {
   const [sortAscending, setSortAscending] = useState<boolean | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const navigate = useRouter();
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
 
   async function getUser() {
     try {
@@ -110,8 +112,19 @@ export default function Index() {
     setModalVisible(false);
   };
 
-  const deleteNote = (id: string) => {
-    setNotes(notes.filter((note) => note.id !== id));
+  // Trigger the modal
+  const confirmDelete = (id: string) => {
+    setNoteToDelete(id);
+    setDeleteModalVisible(true);
+  };
+
+  // Actually perform the deletion
+  const handleConfirmDelete = () => {
+    if (noteToDelete) {
+      setNotes(notes.filter((note) => note.id !== noteToDelete));
+      setNoteToDelete(null);
+      setDeleteModalVisible(false);
+    }
   };
 
   return (
@@ -167,7 +180,7 @@ export default function Index() {
         renderItem={({ item }) => (
           <NoteCard
             note={item}
-            onDelete={() => deleteNote(item.id)}
+            onDelete={() => confirmDelete(item.id)} // Changed this line
             onEdit={() => handleOpenModal(item)}
           />
         )}
@@ -235,6 +248,40 @@ export default function Index() {
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
+      </Modal>
+      {/* Delete Confirmation Modal */}
+      <Modal visible={deleteModalVisible} animationType="fade" transparent>
+        <View style={styles.modalBackground}>
+          <View style={styles.deleteModalContainer}>
+            <Ionicons
+              name="trash-bin-outline"
+              size={50}
+              color="#ff4444"
+              style={{ marginBottom: 15 }}
+            />
+            <Text style={styles.deleteModalTitle}>Delete Note?</Text>
+            <Text style={styles.deleteModalSubtitle}>
+              This action cannot be undone. Are you sure you want to remove this
+              note?
+            </Text>
+
+            <View style={styles.deleteActionRow}>
+              <TouchableOpacity
+                style={styles.cancelDeleteBtn}
+                onPress={() => setDeleteModalVisible(false)}
+              >
+                <Text style={styles.cancelDeleteText}>Cancel</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.confirmDeleteBtn}
+                onPress={handleConfirmDelete}
+              >
+                <Text style={styles.confirmDeleteText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </Modal>
     </View>
   );
@@ -404,5 +451,52 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textTransform: "uppercase",
     fontFamily: Platform.OS === "ios" ? "System" : "sans-serif", // Cross-platform safety
+  },
+  deleteModalContainer: {
+    width: "85%",
+    backgroundColor: "#fff",
+    borderRadius: 25,
+    padding: 30,
+    alignItems: "center",
+    elevation: 20,
+  },
+  deleteModalTitle: {
+    fontSize: 22,
+    fontWeight: "800",
+    color: "#1a1a1a",
+    marginBottom: 10,
+  },
+  deleteModalSubtitle: {
+    fontSize: 15,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 25,
+    lineHeight: 22,
+  },
+  deleteActionRow: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  cancelDeleteBtn: {
+    flex: 1,
+    padding: 15,
+    borderRadius: 12,
+    backgroundColor: "#f0f0f0",
+    alignItems: "center",
+  },
+  confirmDeleteBtn: {
+    flex: 1,
+    padding: 15,
+    borderRadius: 12,
+    backgroundColor: "#ff4444",
+    alignItems: "center",
+  },
+  cancelDeleteText: {
+    fontWeight: "700",
+    color: "#444",
+  },
+  confirmDeleteText: {
+    fontWeight: "700",
+    color: "#fff",
   },
 });

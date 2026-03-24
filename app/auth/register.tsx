@@ -1,5 +1,5 @@
 import { User } from "@/types/User";
-import { setLocalUser } from "@/utils/storage";
+import { getLocalUser, setLocalUser } from "@/utils/storage";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -36,6 +36,8 @@ export default function Register() {
     setLocalUser(payload);
     router.push("/notes");
   };
+
+  console.log("333", getLocalUser());
 
   return (
     <KeyboardAvoidingView
