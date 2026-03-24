@@ -13,11 +13,11 @@ export async function getLocalUser(): Promise<User | null> {
   }
 }
 
-export function setLocalUser(user: User) {
+export function setLocalUser(user: User): Promise<void> {
   return AsyncStorage.setItem("user", JSON.stringify(user));
 }
 
-export function removeLocalUser() {
+export function removeLocalUser(): Promise<void> {
   return AsyncStorage.removeItem("user");
 }
 
