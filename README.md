@@ -23,7 +23,7 @@ npm install
 2. Start running the expo app with
 
 ```bash
-npx expo start
+npm start
 ```
 
 #### Project Structure
