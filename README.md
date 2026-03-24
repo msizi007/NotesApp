@@ -1,4 +1,4 @@
-# NotesApp & Audio Recorder
+# NotesApp
 
 ![NotesApp](https://socialify.git.ci/msizi007/NotesApp/image?language=1&name=1&owner=1&stargazers=1&theme=Light)
 
